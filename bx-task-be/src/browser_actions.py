@@ -69,8 +69,9 @@ async def get_navigation_url_with_form(url: str, country: str):
 async def get_navigation_url(url: str, country: str):
     parsed_url = urlparse(url)
     domain = parsed_url.netloc
-    if redis_client.get(domain):
-        return redis_client.get(f"{domain}:{country}:search_url")
+    search_url = redis_client.get(f"{domain}:{country}:search_url")
+    if search_url:
+        return search_url.decode('utf-8')
 
     proxy = get_proxy_given_country(country)
     print(f"found proxy {proxy}")

@@ -24,6 +24,12 @@ locations = [
     "proxy": "de-pr.oxylabs.io:30000"
   },
   {
+    "country": "China",
+    "domain": "cn-t9t1is.com",
+    "port": 8000,
+    "proxy": "cnt9t1is.com:8000"
+  },
+  {
     "country": "France",
     "domain": "fr-pr.oxylabs.io",
     "port": 40000,

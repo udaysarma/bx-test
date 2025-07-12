@@ -1,5 +1,11 @@
 locations = [
   {
+    "domain": "baidu.com",
+    "language_code": "zh",
+    "country_code": "cn",
+    "country_name": "China"
+  },
+  {
     "domain": "google.ad",
     "language_code": "ca",
     "country_code": "ad",

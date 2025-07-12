@@ -191,12 +191,12 @@ class SearchManager:
         
         results.append({
             'title': validation_result['title'],
-            'price': result.get('price'),
-            'price_from': result.get('price_from'),
-            'price_to': result.get('price_to'),
-            'link': result['link'],
+            'price': result.get('price', None),
+            'price_from': result.get('price_from', None),
+            'price_to': result.get('price_to', None),
+            'link': result.get('link', None),
             'seller': url,
-            'image': result.get('image'),
+            'image': result.get('image', None),
         })
         
         self.redis_client.set(f"{search_id}:results", json.dumps(results))

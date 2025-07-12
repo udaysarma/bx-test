@@ -24,12 +24,24 @@ class Serp:
         params = self._get_search_query_params(query, country_code, "google_shopping")
         return self._get_serp_results(params)
 
+    def serp_baidu_search(self, query, country_code="CN"):
+        location = self._get_country_code_from_name(country_code)
+        params = {
+            "q": "buy " + query,
+            "location": location["country_name"],
+            "engine": "baidu",
+            "hl": location["language_code"],
+            "gl": location["country_code"],
+            "api_key": SERP_API_KEY,
+            "num": 30
+        }
+        return self._get_serp_results(params)
 
     def _get_country_code_from_name(self, name):
         for location in locations:
             if location["country_code"].lower() == name.lower():
                 return location
-        return locations[30]
+        return locations[31]
 
     def _get_search_query_params(self, query, country_code="IN", search_type="google"):
         location = self._get_country_code_from_name(country_code)
@@ -68,7 +80,13 @@ def get_proxied_html(url, country_code="IN"):
 
 
 def get_all_domains(query, country_code="IN"):
-    search = serp_api.serp_results_search(query, country_code)
+    print("country_code", country_code)
+    if country_code.lower() == "cn":
+        print("china search")
+        search = serp_api.serp_baidu_search(query, country_code)
+        print("china search", search)
+    else:
+        search = serp_api.serp_results_search(query, country_code)
     return search, list(set([urlparse(result["link"]).scheme + "://" + urlparse(result["link"]).netloc for result in search["organic_results"]]))
 
 

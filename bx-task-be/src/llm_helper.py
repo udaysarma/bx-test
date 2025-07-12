@@ -90,8 +90,15 @@ class SearchResultFormatter(BaseModel):
 model_with_tools = model.bind_tools([SearchResultFormatter])
 
 def check_if_valid_search_result(query: str, search_result: str):
-    print(f"This is the query --- '{query}' --- does the given product match the query according to the title --- {search_result}")
-    ai_msg = model_with_tools.invoke(f"This is the query --- '{query}' --- does the given product match the query according to the title --- {search_result}")
+    prompt = f"""
+    query: {query}
+    search_result: {search_result}
+    
+    Does the given product match the query according to the title? (any language)
+    """
+    print(prompt)
+    ai_msg = model_with_tools.invoke(prompt)
+    print(ai_msg)
     if ai_msg.tool_calls and len(ai_msg.tool_calls) > 0:
         args = ai_msg.tool_calls[0]['args']
         if args['is_valid_search_result']:

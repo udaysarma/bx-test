@@ -99,6 +99,7 @@ export default function SearchPage() {
                     <option value="gb">United Kingdom</option>
                     <option value="de">Germany</option>
                     <option value="fr">France</option>
+                    <option value="cn">China</option>
                     <option value="es">Spain</option>
                     <option value="it">Italy</option>
                     <option value="se">Sweden</option>

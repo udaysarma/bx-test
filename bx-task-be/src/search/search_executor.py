@@ -58,20 +58,21 @@ def start_or_restart_search(search_id: str, query: str, country: str):
 async def execute_new_search(search_id: str, query: str, country: str):
     """Execute a new search across multiple websites."""
     search_manager = SearchManager(redis_client)
-    try:
-        while True:
+    while True:
+        try:
             new_website_to_scrape = await search_manager.get_new_website_for_scraping(search_id)
             if not new_website_to_scrape:
                 print("No more websites to scrape.")
                 break
 
-            url = await get_navigation_url(new_website_to_scrape, country)
+            print(f"Scraping {new_website_to_scrape} for {query}")
+            url = await asyncio.wait_for(get_navigation_url(new_website_to_scrape, country), timeout=30)
             if not url:
                 print(f"Failed to get navigation URL for {new_website_to_scrape}. Skipping.")
                 continue
                 
             search_url = reencode_url_with_new_query(url, query)
-            html_content = await fetch_html(search_url, country)
+            html_content = await asyncio.wait_for(fetch_html(search_url, country), timeout=30)
             if html_content is None:
                 print(f"Failed to get HTML content for {new_website_to_scrape}. Skipping.")
                 continue
@@ -85,10 +86,10 @@ async def execute_new_search(search_id: str, query: str, country: str):
                 )) for product in products
             ]
             results = await asyncio.gather(*tasks)
-    
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return {"status": "error", "message": str(e)}
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return {"status": "error", "message": str(e)}
 
 def get_existing_search(query: str, country: str) -> Optional[str]:
     """Retrieve the existing search ID from Redis."""

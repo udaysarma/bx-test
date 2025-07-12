@@ -103,6 +103,13 @@ async def get_navigation_url(url: str, country: str):
 
         def fuckup_url(url: str):
             return url[:-1] if url.endswith('/') else url
+        
+        def get_action_path(action: str):
+            if not action.startswith('http'):
+                return action
+            if action.startswith('http'):
+                parsed = urlparse(action)
+                return parsed.path
 
         search_urls = []
 
@@ -112,7 +119,7 @@ async def get_navigation_url(url: str, country: str):
             for input in form['inputs']:
                 if input['type'] == 'text' or input['type'] == 'search':
                     if 'search' in json.dumps(input).lower():
-                        search_url = f"{fuckup_url(url)}{form['action']}?{input['name']}=iphone"
+                        search_url = f"{fuckup_url(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
                         search_urls.append(search_url)
                         print(search_url)
 
@@ -129,7 +136,8 @@ async def get_navigation_url(url: str, country: str):
         print(e)
         return None
     finally:
-        await browser.close()
+        if browser:
+            await browser.close()
 
 async def search_query(url: str, css_path: str, q: str) -> str:
     print(f"Starting search query on URL: {url} with CSS path: {css_path} and query: {q}")
@@ -207,6 +215,7 @@ async def fetch_html(url: str, country: str) -> str:
         print("Returning content")
         return content
     except Exception as e:
+        print(e)
         return ""
 
 

@@ -13,8 +13,8 @@ OX_PASSWORD=os.getenv("OX_PASSWORD", "")
 async def get_browser_page(proxy: str):
     print("Launching browser", proxy)
     browser = await launch({
-            'executablePath': '/usr/bin/chromium-browser',
-            'headless': False,
+            # 'executablePath': '/usr/bin/chromium-browser',
+            'headless': True,
             'args': [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',

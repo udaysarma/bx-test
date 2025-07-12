@@ -11,7 +11,7 @@ from src.browser_actions import get_navigation_url, search_query, fetch_html
 from src.search.search_db import SearchManager
 from src.search.search_executor import start_or_restart_search, get_existing_search
 from src.serp.serp import get_all_domains
-from src.search.helper import add_google_search_to_db
+from src.search.helper import add_google_search_to_db, add_baidu_search_to_db
 
 r = redis.Redis(host='localhost', port=6379, db=0)
 app = FastAPI()
@@ -108,8 +108,12 @@ async def read_root(q: str = None, searchId: str = None, country: str = None):
     else:
         print(f"No existing search ID found for query: {q}, starting a new search")
         search, websites = get_all_domains(q, country)
+        print(f"Starting a new search for query: {q}, country: {country}, websites: {websites}")
         search_id = await search_manager.start_a_search(q, country, websites)
-        asyncio.create_task(add_google_search_to_db(q, search, country, search_id))
+        if country.lower() == "cn":
+            asyncio.create_task(add_baidu_search_to_db(q, search, country, search_id))
+        else:
+            asyncio.create_task(add_google_search_to_db(q, search, country, search_id))
         r.set(f"search:{q}:{country}", search_id)
         start_or_restart_search(search_id, q, country)
     return JSONResponse(status_code=200, content={

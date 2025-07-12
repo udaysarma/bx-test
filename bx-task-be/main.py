@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 import redis
-from src.browser_actions import get_navigation_url, search_query, fetch_html
+from src.browser_actions import BrowserTask, search_query, fetch_html
 from src.search.search_db import SearchManager
 from src.search.search_executor import start_or_restart_search, get_existing_search
 from src.serp.serp import get_all_domains
@@ -38,7 +38,9 @@ async def scrape(request: ScrapeRequest):
         print(f"Received URL: {url}")
         if not url.startswith("http://") and not url.startswith("https://"):
             return JSONResponse(status_code=400, content={"error": "Invalid URL format. URL must start with http:// or https://"})
-        html = await fetch_html(url, country)
+        browser_task = BrowserTask(country)
+        html = await browser_task.get_html(url)
+        await browser_task.cleanup()
         return html
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
@@ -57,7 +59,9 @@ async def navigate(request: NavigationUrlRequest):
         print(f"Received URL for navigation: {url}")
         if not url.startswith("http://") and not url.startswith("https://"):
             return JSONResponse(status_code=400, content={"error": "Invalid URL format. URL must start with http:// or https://"})
-        navigation_url = await get_navigation_url(url, country)
+        browser_task = BrowserTask(country)
+        navigation_url = await browser_task.get_navigation_url(url, country)
+        await browser_task.cleanup()
         return JSONResponse(status_code=200, content={"navigation_url": navigation_url})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
@@ -79,6 +83,7 @@ async def search(request: SearchRequest):
         return HTMLResponse(content=content, status_code=200)
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
 
 @app.get("/api/search", response_class=JSONResponse)
 async def read_root(q: str = None, searchId: str = None, country: str = None):

@@ -9,6 +9,7 @@ from urllib.parse import urljoin, urlencode, urlparse
 from typing import List, Dict, Any, Optional
 import redis
 
+
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 def parse_forms_from_html(html_content, base_url=None):
@@ -56,15 +57,106 @@ def parse_forms_from_html(html_content, base_url=None):
     return forms_data
 
 
-async def get_navigation_url_with_form(url: str, country: str):
-    html = get_proxied_html(url, country)
-    if not html:
-        return None, None
-    soup = BeautifulSoup(html, 'html.parser')
-    form = soup.find('form')
-    if not form:
-        return None, None
-    return form.get('action'), form.get('method')
+class BrowserTask:
+    def __init__(self, country: str):
+        self.proxy = get_proxy_given_country(country)
+        self.browser = None
+        self.page = None
+        self.browser_process = None
+    
+    async def _init(self):
+        self.browser, self.page = await get_browser_page(self.proxy)
+        if hasattr(self.browser, 'process'):
+            self.browser_process = self.browser.process
+
+    async def get_html(self, url):
+        if not self.browser:
+            await self._init()
+        if not self.page:
+            try:
+                await self.browser.close()
+            except Exception as e:
+                print(e)
+                return None
+            finally:
+                await self._init()
+
+        try:
+            await self.page.goto(url, {"waitUntil": "networkidle2"})
+            html = await self.page.content()
+            return html
+        except Exception as e:
+            print(e)
+            return None
+
+
+    async def get_navigation_url(self, url, country):
+        parsed_url = urlparse(url)
+        domain = parsed_url.netloc
+        search_url = redis_client.get(f"{domain}:{country}:search_url")
+
+        if search_url:
+            return search_url.decode('utf-8')
+
+        try:
+            html = await self.get_html(url)
+            if not html:
+                return None
+            
+            forms = parse_forms_from_html(html)
+            print(forms)
+
+            def fuckup_url(url: str):
+                return url[:-1] if url.endswith('/') else url
+            
+            def get_action_path(action: str):
+                if not action.startswith('http'):
+                    return action
+                if action.startswith('http'):
+                    parsed = urlparse(action)
+                    return parsed.path
+
+            search_urls = []
+
+            for form in forms:
+                if 'search' not in json.dumps(form).lower():
+                    continue
+                for input in form['inputs']:
+                    if (input['type'] == 'text' or input['type'] == 'search') and ('search' in json.dumps(input).lower() or len(form['inputs']) == 1):
+                        search_url = f"{fuckup_url(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
+                        search_urls.append(search_url)
+                        print(search_url)
+
+            if len(search_urls) > 0:
+                redis_client.set(f"{domain}:{country}:search_url", search_urls[0])
+                return search_urls[0]
+            else:
+                return None
+        except Exception as e:
+            try:
+                await self.page.screenshot({'path': 'screenshot.png'})
+            except Exception as e:
+                pass
+            print(e)
+            return None
+
+    async def cleanup(self):
+        if self.browser:
+            await self.browser.close()
+            self.browser = None
+        if self.page:
+            self.page = None
+
+        if self.browser_process and self.browser_process.poll() is None:
+            try:
+                self.browser_process.terminate()
+                # Wait a bit for graceful termination
+                await asyncio.sleep(1)
+                if self.browser_process.poll() is None:
+                    self.browser_process.kill()
+            except Exception as e:
+                print(f"Error killing browser process: {e}")
+
 
 async def get_navigation_url(url: str, country: str):
     parsed_url = urlparse(url)
@@ -137,6 +229,7 @@ async def get_navigation_url(url: str, country: str):
     finally:
         if browser:
             await browser.close()
+
 
 async def search_query(url: str, css_path: str, q: str) -> str:
     print(f"Starting search query on URL: {url} with CSS path: {css_path} and query: {q}")

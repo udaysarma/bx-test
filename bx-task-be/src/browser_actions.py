@@ -8,7 +8,7 @@ import json
 from urllib.parse import urljoin, urlencode, urlparse
 from typing import List, Dict, Any, Optional
 import redis
-
+import time
 
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
@@ -82,13 +82,26 @@ class BrowserTask:
                 await self._init()
 
         try:
-            await self.page.goto(url, {"waitUntil": "networkidle2"})
+            # await self.page.goto('https://api.ipify.org?format=json')
+            # content = await self.page.content()
+            # startIndex = content.find('{')
+            # endIndex = content.rfind('}')
+            # content = content[startIndex:endIndex + 1]
+            # data = json.loads(content)
+            # publicIP = data['ip']
+            # print(f"Public IP: {publicIP}")
+            # print(f"Navigating to {url}")
+            # await self.page.goto(f'https://ip-api.com/line/{publicIP}')
+            # content = await self.page.content()
+            # print(content)
+            await self.page.goto(url, {"waitUntil": "networkidle2", "timeout": 60000})
+            print(f"Navigated to {url}")
             html = await self.page.content()
+            print(f"HTML fetched for {url}")
             return html
         except Exception as e:
             print(e)
             return None
-
 
     async def get_navigation_url(self, url, country):
         parsed_url = urlparse(url)

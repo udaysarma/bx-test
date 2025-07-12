@@ -68,13 +68,15 @@ async def execute_new_search(search_id: str, query: str, country: str):
                 break
 
             print(f"Scraping {new_website_to_scrape} for {query}")
-            url = await asyncio.wait_for(browser_task.get_navigation_url(new_website_to_scrape, country), timeout=30)
+            # if 'amazon' in new_website_to_scrape:
+            #     continue
+            url = await asyncio.wait_for(browser_task.get_navigation_url(new_website_to_scrape, country), timeout=60)
             if not url:
                 print(f"Failed to get navigation URL for {new_website_to_scrape}. Skipping.")
                 continue
                 
             search_url = reencode_url_with_new_query(url, query)
-            html_content = await asyncio.wait_for(browser_task.get_html(search_url), timeout=30)
+            html_content = await asyncio.wait_for(browser_task.get_html(search_url), timeout=60)
             if html_content is None:
                 print(f"Failed to get HTML content for {new_website_to_scrape}. Skipping.")
                 continue
@@ -91,7 +93,6 @@ async def execute_new_search(search_id: str, query: str, country: str):
         
         except Exception as e:
             print(f"An error occurred: {e}")
-            return {"status": "error", "message": str(e)}
     await browser_task.cleanup()
 
 def get_existing_search(query: str, country: str) -> Optional[str]:

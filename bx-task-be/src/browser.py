@@ -41,7 +41,8 @@ async def get_browser_page(proxy: str):
                 '--single-process',
                 '--disable-ipc-flooding-protection',
                 '--memory-pressure-off',
-                '--proxy-server=' + proxy
+                '--proxy-server=' + proxy,
+                # '--proxy-auth=' + OX_USERNAME + ':' + OX_PASSWORD
             ],
             'ignoreHTTPSErrors': True,
         })
@@ -98,13 +99,12 @@ async def get_browser_page(proxy: str):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
     })
-    print("New page created")
-
-    print(f"Authenticating with {OX_USERNAME} and {OX_PASSWORD}")
 
     await page.authenticate({
         'username': OX_USERNAME,
         'password': OX_PASSWORD
     })
+
+    print("New page created")
 
     return browser, page

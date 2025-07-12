@@ -59,6 +59,27 @@ def check_match(req: MatchRequest) -> MatchResponse:
     return MatchResponse(match=match)
 
 
+def check_if_form(req: MatchRequest) -> MatchResponse:
+    prompt = f"""
+    Query: {req.query}
+    Search Result: {req.search_result}
+    
+    Is the given form the search form of the website? Answer only with "True" or "False".
+    """
+
+    response = client.responses.create(
+        model="gpt-4",  # or gpt-3.5-turbo
+        input=prompt,
+        temperature=0
+    )
+
+    answer = response.output_text.strip()
+    match = answer.lower() == "true"
+    return MatchResponse(match=match)
+
+
+
+
 class SearchResultFormatter(BaseModel):
     """Always use this tool to structure your response to the user."""
     is_valid_search_result: bool = Field(description="Whether the search result matches the user's query. If it matches, return True, else False. If the search result is not valid, do not return the title, price and link.")

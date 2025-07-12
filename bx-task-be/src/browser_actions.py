@@ -2,12 +2,82 @@ from src.browser import get_browser_page
 from src.consts import input_eval_js
 from src.oxylabs.proxy import get_proxy_given_country
 import asyncio
+import requests
+from bs4 import BeautifulSoup
+import json
+from urllib.parse import urljoin, urlencode, urlparse
+from typing import List, Dict, Any, Optional
+import redis
+
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+def parse_forms_from_html(html_content, base_url=None):
+    """
+    Parse HTML content and extract form details including input names, action, and method
+    """
+    soup = BeautifulSoup(html_content, 'html.parser')
+    forms_data = []
+    
+    # Find all forms
+    forms = soup.find_all('form')
+    
+    for i, form in enumerate(forms):
+        form_info = {
+            'form_index': i + 1,
+            'action': form.get('action', ''),
+            'method': form.get('method', 'GET').upper(),
+            'id': form.get('id', ''),
+            'class': form.get('class', []),
+            'inputs': []
+        }
+        
+        # Make action URL absolute if base_url provided
+        if base_url and form_info['action']:
+            form_info['action'] = urljoin(base_url, form_info['action'])
+        
+        # Find all form elements (input, select, textarea)
+        form_elements = form.find_all(['input', 'textarea'])
+        
+        for element in form_elements:
+            element_info = {
+                'tag': element.name,
+                'name': element.get('name', ''),
+                'type': element.get('type', ''),
+                'value': element.get('value', ''),
+                'id': element.get('id', ''),
+                'required': element.has_attr('required'),
+                'placeholder': element.get('placeholder', '')
+            }
+            
+            form_info['inputs'].append(element_info)
+        
+        forms_data.append(form_info)
+    
+    return forms_data
+
+
+async def get_navigation_url_with_form(url: str, country: str):
+    html = get_proxied_html(url, country)
+    if not html:
+        return None, None
+    soup = BeautifulSoup(html, 'html.parser')
+    form = soup.find('form')
+    if not form:
+        return None, None
+    return form.get('action'), form.get('method')
 
 async def get_navigation_url(url: str, country: str):
+    parsed_url = urlparse(url)
+    domain = parsed_url.netloc
+    if redis_client.get(domain):
+        return redis_client.get(f"{domain}:{country}:search_url")
+
     proxy = get_proxy_given_country(country)
     print(f"found proxy {proxy}")
     try:
         browser, page = await get_browser_page(proxy)
+
+        print("abcd")
 
         await page.goto(url, {"waitUntil": "networkidle2"})
         # print(len(form_handle), "forms found")
@@ -26,104 +96,39 @@ async def get_navigation_url(url: str, country: str):
         # input_handle = await form_handle.querySelector(input_selector)
         # first_text_input = await page.querySelector(input_selector)
 
-        # if input_handle:
-        #     await input_handle.type('iphone')
-        #     await asyncio.gather(
-        #         page.evaluate('''() => {
-        #             document.querySelector('form').submit();
-        #         }'''),
-        #         page.waitForNavigation(timeout=10000)
-        #     )
-        #     print("Typed into input field inside the form.")
-        # elif first_text_input:
-        #     await first_text_input.type('iphone')
-        #     await asyncio.gather(
-        #         page.keyboard.press('Enter'),
-        #         page.waitForNavigation(timeout=10000)
-        #     )
-        #     print("Input field not found inside the form.")
-        # else:
-        #     return None
+        html = await page.content()
+        forms = parse_forms_from_html(html)
+        print(forms)
 
-        # Define coroutines to get the handles
-        async def get_input_handle():
-            await page.waitForSelector('form')
-            print("Form found, typing into the input field...")
-            form_handle = await page.querySelector('form')
+        def fuckup_url(url: str):
+            return url[:-1] if url.endswith('/') else url
 
-            handle = await form_handle.querySelector(input_selector)
-            return 'form', handle if handle else None
+        search_urls = []
 
-        async def get_first_text_input():
-            await page.waitForSelector(input_selector)
-            handle = await page.querySelector(input_selector)
-            return 'non_form', handle if handle else None
+        for form in forms:
+            if 'search' not in json.dumps(form).lower():
+                continue
+            for input in form['inputs']:
+                if input['type'] == 'text' or input['type'] == 'search':
+                    if 'search' in json.dumps(input).lower():
+                        search_url = f"{fuckup_url(url)}{form['action']}?{input['name']}=iphone"
+                        search_urls.append(search_url)
+                        print(search_url)
 
-        async def get_first_text_area():
-            await page.waitForSelector('textarea')
-            handle = await page.querySelector('textarea')
-            return 'textarea', handle if handle else None
-
-        # Run both and wait for the first one that returns a non-None handle
-        tasks = [
-            asyncio.create_task(get_input_handle()),
-            asyncio.create_task(get_first_text_input()),
-            # asyncio.create_task(get_first_text_area())
-        ]
-
-        done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
-
-        result_type, handle = None, None
-        for task in done:
-            result_type, handle = await task
-            if handle:
-                break
-
-        # Cancel any remaining tasks
-        for task in pending:
-            task.cancel()
-
-        print('k')
-        print(result_type, handle)
-
-        # Proceed based on which input was found
-        if handle:
-            await handle.type('iphone', delay=10)  # Type the query with a slight delay for realism
-
-            if result_type == 'form':
-                await asyncio.gather(
-                    page.evaluate('''() => {
-                        document.querySelector('form').submit();
-                    }'''),
-                    page.waitForNavigation()
-                )
-                print("Typed into input field inside the form.")
-            else:
-                await asyncio.gather(
-                    page.keyboard.press('Enter'),
-                    page.waitForNavigation()
-                )
-                print("Input field not inside the form.")
+        if len(search_urls) > 0:
+            redis_client.set(f"{domain}:{country}:search_url", search_urls[0])
+            return search_urls[0]
         else:
-            print("No input field found.")
             return None
-
-        # Submit the form via JavaScript
-        # await asyncio.gather(
-        #     page.evaluate('''() => {
-        #         document.querySelector('form').submit();
-        #     }'''),
-        #     page.waitForNavigation(timeout=10000)
-        # )
-        print(page.url)
-        return page.url
     except Exception as e:
-        await page.screenshot({'path': 'screenshot.png'})
+        try:
+            await page.screenshot({'path': 'screenshot.png'})
+        except Exception as e:
+            pass
         print(e)
         return None
     finally:
         await browser.close()
-
 
 async def search_query(url: str, css_path: str, q: str) -> str:
     print(f"Starting search query on URL: {url} with CSS path: {css_path} and query: {q}")
@@ -205,4 +210,33 @@ async def fetch_html(url: str, country: str) -> str:
 
 
 if __name__ == "__main__":
-    asyncio.run(get_navigation_url("https://www.bestbuy.com", "us"))
+    for i in [
+    "https://www.boostmobile.com",
+    "https://www.metrobyt-mobile.com",
+    "https://www.youtube.com",
+    "https://www.reddit.com",
+    "https://www.xfinity.com",
+    "https://www.bestbuy.com",
+    "https://discussions.apple.com",
+    "https://www.dpreview.com",
+    "https://forums.appleinsider.com",
+    "https://www.cspire.com",
+    "https://forums.macrumors.com",
+    "https://www.forbes.com",
+    "https://www.att.com",
+    "https://www.spectrum.com",
+    "https://www.apple.com",
+    "https://www.walmart.com",
+    "https://www.macofalltrades.com",
+    "https://community.verizon.com",
+    "https://www.amazon.com",
+    "https://buy.gazelle.com",
+    "https://www.puretalk.com",
+    "https://applemania.quora.com",
+    "https://forums.guru3d.com",
+    "https://www.zdnet.com",
+    "https://www.t-mobile.com",
+    "https://www.pcmag.com",
+    "https://www.visible.com"
+    ]:
+        asyncio.run(get_navigation_url(i, "us"))

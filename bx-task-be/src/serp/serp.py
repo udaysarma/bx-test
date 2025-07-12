@@ -4,6 +4,9 @@ from src.oxylabs.proxy import get_proxy_given_country
 from urllib.parse import urlencode, urlparse
 from bs4 import BeautifulSoup
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 SERP_API_KEY = os.getenv("SERP_API_KEY")
 
@@ -93,7 +96,7 @@ def get_all_shopping_domains(query, country_code="IN"):
 
 
 if __name__=="__main__":
-    shopping, websites = get_all_shopping_domains("iphone 16 pro max", 'us')
+    shopping, websites = get_all_domains("iphone 16 pro max", 'us')
     print(shopping)
     print(websites)
 

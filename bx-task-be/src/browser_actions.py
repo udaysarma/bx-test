@@ -117,11 +117,10 @@ async def get_navigation_url(url: str, country: str):
             if 'search' not in json.dumps(form).lower():
                 continue
             for input in form['inputs']:
-                if input['type'] == 'text' or input['type'] == 'search':
-                    if 'search' in json.dumps(input).lower():
-                        search_url = f"{fuckup_url(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
-                        search_urls.append(search_url)
-                        print(search_url)
+                if (input['type'] == 'text' or input['type'] == 'search') and ('search' in json.dumps(input).lower() or len(form['inputs']) == 1):
+                    search_url = f"{fuckup_url(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
+                    search_urls.append(search_url)
+                    print(search_url)
 
         if len(search_urls) > 0:
             redis_client.set(f"{domain}:{country}:search_url", search_urls[0])

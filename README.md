@@ -19,7 +19,7 @@ Below are some example images showing the search bar highlighting feature:
 
 <p align="center">
   <img src="images/flipkart_products.png" alt="Search bar highlighted on e-commerce site" width="400"/>
-  <img src="images/moglix_product.png" alt="Search bar highlighted on another site" width="400"/>
+  <img src="images/moglix_products.png" alt="Search bar highlighted on another site" width="400"/>
 </p>
 
 ---

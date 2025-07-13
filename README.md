@@ -4,7 +4,16 @@
 
 🟢 **Live Demo**: [https://www.temptestdomain.online/](https://www.temptestdomain.online/)
 
+---
 
+## Highlighting of search bar when we find it in page
+
+Below are some example images showing the search bar highlighting feature:
+
+<p align="center">
+  <img src="images/www.jiomart.com.png" alt="Search bar highlighted on e-commerce site" width="400"/>
+  <img src="images/www.moglix.com.png" alt="Search bar highlighted on another site" width="400"/>
+</p>
 
 ---
 

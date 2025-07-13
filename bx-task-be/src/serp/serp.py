@@ -114,7 +114,7 @@ def get_all_shopping_domains(query, country_code="IN"):
 
 
 if __name__=="__main__":
-    shopping, websites = get_all_domains("iphone 16 pro max", 'us')
+    shopping, websites = get_all_domains("boat airdopes", 'in')
     print(shopping)
     print(websites)
 

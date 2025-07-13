@@ -94,6 +94,7 @@ class BrowserTask:
             # await self.page.goto(f'https://ip-api.com/line/{publicIP}')
             # content = await self.page.content()
             # print(content)
+            print(f"Navigating to {url}")
             await self.page.goto(url, {"waitUntil": "networkidle2", "timeout": 60000})
             print(f"Navigated to {url}")
             html = await self.page.content()
@@ -324,34 +325,18 @@ async def fetch_html(url: str, country: str) -> str:
         return ""
 
 
+import asyncio
+
+async def run_browser_tasks():
+    task_browser = BrowserTask("in")
+    
+    websites = ['https://www.tatacliq.com', 'https://www.jiomart.com', 'https://www.boat-lifestyle.com', 'https://www.moglix.com', 'https://www.reliancedigital.in', 'https://play.google.com', 'https://www.smartprix.com', 'https://www.swiggy.com', 'https://www.flipkart.com', 'https://blinkit.com', 'https://www.bigbasket.com', 'https://www.91mobiles.com', 'https://www.poorvika.com', 'https://www.zeptonow.com', 'https://dir.indiamart.com', 'https://www.ajio.com', 'https://www.myntra.com', 'https://www.vijaysales.com', 'https://m.snapdeal.com', 'https://www.croma.com', 'https://www.nykaafashion.com']
+    
+    # Sequential execution
+    for url in websites:
+        await task_browser.get_html(url)
+    
+    await task_browser.cleanup()
+
 if __name__ == "__main__":
-    for i in [
-    "https://www.boostmobile.com",
-    "https://www.metrobyt-mobile.com",
-    "https://www.youtube.com",
-    "https://www.reddit.com",
-    "https://www.xfinity.com",
-    "https://www.bestbuy.com",
-    "https://discussions.apple.com",
-    "https://www.dpreview.com",
-    "https://forums.appleinsider.com",
-    "https://www.cspire.com",
-    "https://forums.macrumors.com",
-    "https://www.forbes.com",
-    "https://www.att.com",
-    "https://www.spectrum.com",
-    "https://www.apple.com",
-    "https://www.walmart.com",
-    "https://www.macofalltrades.com",
-    "https://community.verizon.com",
-    "https://www.amazon.com",
-    "https://buy.gazelle.com",
-    "https://www.puretalk.com",
-    "https://applemania.quora.com",
-    "https://forums.guru3d.com",
-    "https://www.zdnet.com",
-    "https://www.t-mobile.com",
-    "https://www.pcmag.com",
-    "https://www.visible.com"
-    ]:
-        asyncio.run(get_navigation_url(i, "us"))
+    asyncio.run(run_browser_tasks())

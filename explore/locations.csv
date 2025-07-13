@@ -1,0 +1,155 @@
+Entry Point,Entry Point,Port,Entry Point:port
+Random Country,pr.oxylabs.io,7777,pr.oxylabs.io:7777
+USA,us-pr.oxylabs.io,10000,us-pr.oxylabs.io:10000
+Canada,ca-pr.oxylabs.io,30000,ca-pr.oxylabs.io:30000
+United Kingdom,gb-pr.oxylabs.io,20000,gb-pr.oxylabs.io:20000
+Germany,de-pr.oxylabs.io,30000,de-pr.oxylabs.io:30000
+France,fr-pr.oxylabs.io,40000,fr-pr.oxylabs.io:40000
+Spain,es-pr.oxylabs.io,10000,es-pr.oxylabs.io:10000
+Italy,it-pr.oxylabs.io,20000,it-pr.oxylabs.io:20000
+Sweden,se-pr.oxylabs.io,30000,se-pr.oxylabs.io:30000
+Greece,gr-pr.oxylabs.io,40000,gr-pr.oxylabs.io:40000
+Portugal,pt-pr.oxylabs.io,10000,pt-pr.oxylabs.io:10000
+Netherlands,nl-pr.oxylabs.io,20000,nl-pr.oxylabs.io:20000
+Belgium,be-pr.oxylabs.io,30000,be-pr.oxylabs.io:30000
+Russia,ru-pr.oxylabs.io,40000,ru-pr.oxylabs.io:40000
+Ukraine,ua-pr.oxylabs.io,10000,ua-pr.oxylabs.io:10000
+Poland,pl-pr.oxylabs.io,20000,pl-pr.oxylabs.io:20000
+Israel,il-pr.oxylabs.io,20000,il-pr.oxylabs.io:20000
+Turkey,tr-pr.oxylabs.io,30000,tr-pr.oxylabs.io:30000
+Australia,au-pr.oxylabs.io,40000,au-pr.oxylabs.io:40000
+Malaysia,my-pr.oxylabs.io,10000,my-pr.oxylabs.io:10000
+Thailand,th-pr.oxylabs.io,20000,th-pr.oxylabs.io:20000
+South Korea,kr-pr.oxylabs.io,30000,kr-pr.oxylabs.io:30000
+Japan,jp-pr.oxylabs.io,40000,jp-pr.oxylabs.io:40000
+Philippines,ph-pr.oxylabs.io,10000,ph-pr.oxylabs.io:10000
+Singapore,sg-pr.oxylabs.io,20000,sg-pr.oxylabs.io:20000
+China,cn-pr.oxylabs.io,30000,cn-pr.oxylabs.io:30000
+Honk Kong,hk-pr.oxylabs.io,40000,hk-pr.oxylabs.io:40000
+Taiwan,tw-pr.oxylabs.io,10000,tw-pr.oxylabs.io:10000
+India,in-pr.oxylabs.io,20000,in-pr.oxylabs.io:20000
+Pakistan,pk-pr.oxylabs.io,30000,pk-pr.oxylabs.io:30000
+Iran,ir-pr.oxylabs.io,40000,ir-pr.oxylabs.io:40000
+Indonesia,id-pr.oxylabs.io,10000,id-pr.oxylabs.io:10000
+Azerbaijan,az-pr.oxylabs.io,20000,az-pr.oxylabs.io:20000
+Kazakhstan,kz-pr.oxylabs.io,30000,kz-pr.oxylabs.io:30000
+UAE,ae-pr.oxylabs.io,40000,ae-pr.oxylabs.io:40000
+Mexico,mx-pr.oxylabs.io,10000,mx-pr.oxylabs.io:10000
+Brazil,br-pr.oxylabs.io,20000,br-pr.oxylabs.io:20000
+Argentina,ar-pr.oxylabs.io,30000,ar-pr.oxylabs.io:30000
+Chile,cl-pr.oxylabs.io,40000,cl-pr.oxylabs.io:40000
+Peru,pe-pr.oxylabs.io,10000,pe-pr.oxylabs.io:10000
+Ecuador,ec-pr.oxylabs.io,20000,ec-pr.oxylabs.io:20000
+Colombia,co-pr.oxylabs.io,30000,co-pr.oxylabs.io:30000
+South Africa,za-pr.oxylabs.io,40000,za-pr.oxylabs.io:40000
+Egypt,eg-pr.oxylabs.io,10000,eg-pr.oxylabs.io:10000
+Saudi Arabia,sa-pr.oxylabs.io,44000,sa-pr.oxylabs.io:44000
+Denmark,dk-pr.oxylabs.io,19000,dk-pr.oxylabs.io:19000
+Angola,ao-pr.oxylabs.io,40000,ao-pr.oxylabs.io:40000
+Cameroon,cm-pr.oxylabs.io,41000,cm-pr.oxylabs.io:41000
+Central African Republic,cf-pr.oxylabs.io,42000,cf-pr.oxylabs.io:42000
+Chad,td-pr.oxylabs.io,43000,td-pr.oxylabs.io:43000
+Benin,bj-pr.oxylabs.io,44000,bj-pr.oxylabs.io:44000
+Ethiopia,et-pr.oxylabs.io,45000,et-pr.oxylabs.io:45000
+Djibouti,dj-pr.oxylabs.io,46000,dj-pr.oxylabs.io:46000
+Gambia,gm-pr.oxylabs.io,47000,gm-pr.oxylabs.io:47000
+Ghana,gh-pr.oxylabs.io,48000,gh-pr.oxylabs.io:48000
+Côte d'Ivoire,ci-pr.oxylabs.io,49000,ci-pr.oxylabs.io:49000
+Kenya,ke-pr.oxylabs.io,10000,ke-pr.oxylabs.io:10000
+Liberia,lr-pr.oxylabs.io,11000,lr-pr.oxylabs.io:11000
+Madagascar,mg-pr.oxylabs.io,12000,mg-pr.oxylabs.io:12000
+Mali,ml-pr.oxylabs.io,13000,ml-pr.oxylabs.io:13000
+Mauritania,mr-pr.oxylabs.io,14000,mr-pr.oxylabs.io:14000
+Mauritius,mu-pr.oxylabs.io,15000,mu-pr.oxylabs.io:15000
+Morocco,ma-pr.oxylabs.io,16000,ma-pr.oxylabs.io:16000
+Mozambique,mz-pr.oxylabs.io,17000,mz-pr.oxylabs.io:17000
+Nigeria,ng-pr.oxylabs.io,18000,ng-pr.oxylabs.io:18000
+Senegal,sn-pr.oxylabs.io,19000,sn-pr.oxylabs.io:19000
+Seychelles,sc-pr.oxylabs.io,20000,sc-pr.oxylabs.io:20000
+Zimbabwe,zw-pr.oxylabs.io,21000,zw-pr.oxylabs.io:21000
+South Sudan,ss-pr.oxylabs.io,22000,ss-pr.oxylabs.io:22000
+Sudan,sd-pr.oxylabs.io,23000,sd-pr.oxylabs.io:23000
+Togo,tg-pr.oxylabs.io,24000,tg-pr.oxylabs.io:24000
+Tunisia,tn-pr.oxylabs.io,25000,tn-pr.oxylabs.io:25000
+Uganda,ug-pr.oxylabs.io,26000,ug-pr.oxylabs.io:26000
+Zambia,zm-pr.oxylabs.io,27000,zm-pr.oxylabs.io:27000
+Afghanistan,af-pr.oxylabs.io,28000,af-pr.oxylabs.io:28000
+Bahrain,bh-pr.oxylabs.io,29000,bh-pr.oxylabs.io:29000
+Bangladesh,bd-pr.oxylabs.io,30000,bd-pr.oxylabs.io:30000
+Armenia,am-pr.oxylabs.io,31000,am-pr.oxylabs.io:31000
+Bhutan,bt-pr.oxylabs.io,32000,bt-pr.oxylabs.io:32000
+Myanmar,mm-pr.oxylabs.io,33000,mm-pr.oxylabs.io:33000
+Cambodia,kh-pr.oxylabs.io,34000,kh-pr.oxylabs.io:34000
+Georgia,ge-pr.oxylabs.io,36000,ge-pr.oxylabs.io:36000
+Iraq,iq-pr.oxylabs.io,37000,iq-pr.oxylabs.io:37000
+Jordan,jo-pr.oxylabs.io,38000,jo-pr.oxylabs.io:38000
+Lebanon,lb-pr.oxylabs.io,39000,lb-pr.oxylabs.io:39000
+Maldives,mv-pr.oxylabs.io,40000,mv-pr.oxylabs.io:40000
+Mongolia,mn-pr.oxylabs.io,41000,mn-pr.oxylabs.io:41000
+Oman,om-pr.oxylabs.io,42000,om-pr.oxylabs.io:42000
+Qatar,qa-pr.oxylabs.io,43000,qa-pr.oxylabs.io:43000
+Saudi Arabia,sa-pr.oxylabs.io,44000,sa-pr.oxylabs.io:44000
+Vietnam,vn-pr.oxylabs.io,45000,vn-pr.oxylabs.io:45000
+Turkmenistan,tm-pr.oxylabs.io,46000,tm-pr.oxylabs.io:46000
+Uzbekistan,uz-pr.oxylabs.io,47000,uz-pr.oxylabs.io:47000
+Yemen,ye-pr.oxylabs.io,48000,ye-pr.oxylabs.io:48000
+Albania,al-pr.oxylabs.io,49000,al-pr.oxylabs.io:49000
+Andorra,ad-pr.oxylabs.io,10000,ad-pr.oxylabs.io:10000
+Austria,at-pr.oxylabs.io,11000,at-pr.oxylabs.io:11000
+Bosnia and Herzegovina,ba-pr.oxylabs.io,13000,ba-pr.oxylabs.io:13000
+Bulgaria,bg-pr.oxylabs.io,14000,bg-pr.oxylabs.io:14000
+Belarus,by-pr.oxylabs.io,15000,by-pr.oxylabs.io:15000
+Croatia,hr-pr.oxylabs.io,16000,hr-pr.oxylabs.io:16000
+Cyprus,cy-pr.oxylabs.io,35000,cy-pr.oxylabs.io:35000
+Czech Republic,cz-pr.oxylabs.io,18000,cz-pr.oxylabs.io:18000
+Denmark,dk-pr.oxylabs.io,19000,dk-pr.oxylabs.io:19000
+Estonia,ee-pr.oxylabs.io,20000,ee-pr.oxylabs.io:20000
+Finland,fi-pr.oxylabs.io,21000,fi-pr.oxylabs.io:21000
+Hungary,hu-pr.oxylabs.io,23000,hu-pr.oxylabs.io:23000
+Iceland,is-pr.oxylabs.io,24000,is-pr.oxylabs.io:24000
+Ireland,ie-pr.oxylabs.io,25000,ie-pr.oxylabs.io:25000
+Latvia,lv-pr.oxylabs.io,26000,lv-pr.oxylabs.io:26000
+Liechtenstein,li-pr.oxylabs.io,27000,li-pr.oxylabs.io:27000
+Lithuania,lt-pr.oxylabs.io,28000,lt-pr.oxylabs.io:28000
+Luxembourg,lu-pr.oxylabs.io,29000,lu-pr.oxylabs.io:29000
+Malta,mt-pr.oxylabs.io,30000,mt-pr.oxylabs.io:30000
+Monaco,mc-pr.oxylabs.io,31000,mc-pr.oxylabs.io:31000
+Moldova,md-pr.oxylabs.io,32000,md-pr.oxylabs.io:32000
+Montenegro,me-pr.oxylabs.io,33000,me-pr.oxylabs.io:33000
+Norway,no-pr.oxylabs.io,34000,no-pr.oxylabs.io:34000
+Romania,ro-pr.oxylabs.io,35000,ro-pr.oxylabs.io:35000
+Serbia,rs-pr.oxylabs.io,36000,rs-pr.oxylabs.io:36000
+Slovakia,sk-pr.oxylabs.io,37000,sk-pr.oxylabs.io:37000
+Slovenia,si-pr.oxylabs.io,38000,si-pr.oxylabs.io:38000
+Switzerland,ch-pr.oxylabs.io,39000,ch-pr.oxylabs.io:39000
+Macedonia,mk-pr.oxylabs.io,40000,mk-pr.oxylabs.io:40000
+Bahamas,bs-pr.oxylabs.io,41000,bs-pr.oxylabs.io:41000
+Belize,bz-pr.oxylabs.io,42000,bz-pr.oxylabs.io:42000
+British Virgin Islands,vg-pr.oxylabs.io,43000,vg-pr.oxylabs.io:43000
+Costa Rica,cr-pr.oxylabs.io,44000,cr-pr.oxylabs.io:44000
+Cuba,cu-pr.oxylabs.io,45000,cu-pr.oxylabs.io:45000
+Dominica,dm-pr.oxylabs.io,46000,dm-pr.oxylabs.io:46000
+Haiti,ht-pr.oxylabs.io,47000,ht-pr.oxylabs.io:47000
+Honduras,hn-pr.oxylabs.io,48000,hn-pr.oxylabs.io:48000
+Jamaica,jm-pr.oxylabs.io,49000,jm-pr.oxylabs.io:49000
+Aruba,aw-pr.oxylabs.io,10000,aw-pr.oxylabs.io:10000
+Panama,pa-pr.oxylabs.io,11000,pa-pr.oxylabs.io:11000
+Puerto Rico,pr-pr.oxylabs.io,12000,pr-pr.oxylabs.io:12000
+Trinidad and Tobago,tt-pr.oxylabs.io,13000,tt-pr.oxylabs.io:13000
+Fiji,fj-pr.oxylabs.io,14000,fj-pr.oxylabs.io:14000
+New Zealand,nz-pr.oxylabs.io,15000,nz-pr.oxylabs.io:15000
+Bolivia,bo-pr.oxylabs.io,16000,bo-pr.oxylabs.io:16000
+Paraguay,py-pr.oxylabs.io,17000,py-pr.oxylabs.io:17000
+Uruguay,uy-pr.oxylabs.io,18000,uy-pr.oxylabs.io:18000
+Venezuela,ve-pr.oxylabs.io,19000,ve-pr.oxylabs.io:19000
+EU,eu-pr.oxylabs.io,10000,eu-pr.oxylabs.io:10000
+Dominican Republic,do-pr.oxylabs.io,21000,do-pr.oxylabs.io:21000
+Laos,la-pr.oxylabs.io,22000,la-pr.oxylabs.io:22000
+Tanzania,tz-pr.oxylabs.io,23000,tz-pr.oxylabs.io:23000
+Sri Lanka,lk-pr.oxylabs.io,24000,lk-pr.oxylabs.io:24000
+Brunei,bn-pr.oxylabs.io,25000,bn-pr.oxylabs.io:25000
+Nepal,np-pr.oxylabs.io,26000,np-pr.oxylabs.io:26000
+Kuwait,kw-pr.oxylabs.io,20000,kw-pr.oxylabs.io:20000
+Guatemala,gt-pr.oxylabs.io,27000,gt-pr.oxylabs.io:27000
+Algeria,dz-pr.oxylabs.io,29000,dz-pr.oxylabs.io:29000
+Namibia,na-pr.oxylabs.io,28000,na-pr.oxylabs.io:28000

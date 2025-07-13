@@ -7,7 +7,7 @@ from pydantic import BaseModel
 import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 import redis
-from src.browser_actions import BrowserTask, search_query, fetch_html
+from src.browser_actions import BrowserTask, search_query
 from src.search.search_db import SearchManager
 from src.search.search_executor import start_or_restart_search, get_existing_search
 from src.serp.serp import get_all_domains

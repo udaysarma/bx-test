@@ -2,13 +2,10 @@ from src.browser import get_browser_page
 from src.consts import input_eval_js
 from src.oxylabs.proxy import get_proxy_given_country
 import asyncio
-import requests
 from bs4 import BeautifulSoup
 import json
 from urllib.parse import urljoin, urlencode, urlparse
-from typing import List, Dict, Any, Optional
 import redis
-import time
 
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
@@ -120,7 +117,7 @@ class BrowserTask:
             forms = parse_forms_from_html(html)
             print(forms)
 
-            def fuckup_url(url: str):
+            def remove_trailing_slash(url: str):
                 return url[:-1] if url.endswith('/') else url
             
             def get_action_path(action: str):
@@ -137,7 +134,7 @@ class BrowserTask:
                     continue
                 for input in form['inputs']:
                     if (input['type'] == 'text' or input['type'] == 'search') and ('search' in json.dumps(input).lower() or len(form['inputs']) == 1):
-                        search_url = f"{fuckup_url(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
+                        search_url = f"{remove_trailing_slash(url)}{get_action_path(form['action'])}?{input['name']}=iphone"
                         search_urls.append(search_url)
                         print(search_url)
 
@@ -187,21 +184,6 @@ async def get_navigation_url(url: str, country: str):
         print("abcd")
 
         await page.goto(url, {"waitUntil": "networkidle2"})
-        # print(len(form_handle), "forms found")
-
-        # forms_text = await page.evaluate('''() => {
-        #     const forms = Array.from(document.querySelectorAll('form'));
-        #     return forms.map(form => form.innerText.trim());
-        # }''')
-
-        # # Print each form's text
-        # for i, text in enumerate(forms_text):
-        #     print(f"Form {i + 1} text:\n{text}\n{'-'*40}")
-
-        # Find the input inside the form
-        input_selector = 'input[type="text"], input[type="search"], textarea'  # Adjust this selector
-        # input_handle = await form_handle.querySelector(input_selector)
-        # first_text_input = await page.querySelector(input_selector)
 
         html = await page.content()
         forms = parse_forms_from_html(html)
@@ -245,87 +227,6 @@ async def get_navigation_url(url: str, country: str):
             await browser.close()
 
 
-async def search_query(url: str, css_path: str, q: str) -> str:
-    print(f"Starting search query on URL: {url} with CSS path: {css_path} and query: {q}")
-    proxy = get_proxy_given_country('in')
-    browser, page = await get_browser_page(proxy)
-    await page.goto(url, {"waitUntil": "networkidle2"})
-    # await page.waitFor(200 * 1000)
-    # Wait for the page to load completely
-    await page.waitForSelector('input[type="text"], input[type="search"]', {'visible': True})
-
-    print(f"Page loaded: {url}")
-    inputs = await page.evaluate(input_eval_js)
-    for i, field in enumerate(inputs, 1):
-        print(f"[{i}] {field}")
-
-    print('a')
-    print(inputs)
-    print('b')
-
-    await page.waitForSelector(css_path, {'visible': True})
-
-    elements = await page.querySelectorAll(css_path)
-    print(f"Found {len(elements)} elements")
-
-    value = await page.evaluate(f'''() => {{
-        const el = document.querySelector("{css_path}");
-        return el ? el.value : null;
-    }}''')
-
-    print(f"Value in input field before typing: {value}")
-
-    await page.focus(css_path)  # Focus on the input field using the provided CSS path
-    await page.click(css_path)
-    await page.keyboard.type(q, delay=10)  # Type the query with a slight delay for realism
-
-    value = await page.evaluate(f'''() => {{
-        const el = document.querySelector("{css_path}");
-        return el ? el.value : null;
-    }}''')
-
-    print(f"Value in input field: {value}")
-
-    # await page.keyboard.press('Enter')
-
-    # for i in range(30):
-    #     print(f"Waiting for 1 second... {i+1}", page.url)
-    #     await asyncio.sleep(1)
-
-    # Press Enter
-    await asyncio.gather(
-        page.keyboard.press('Enter'),
-        page.waitForNavigation({"waitUntil": "networkidle2"})  # Wait for navigation to complete
-    )
-
-    print(page.url)
-    content = await page.content()
-    print("Content fetched after search")
-    await browser.close()
-    print("Browser closed")
-    return content
-
-
-async def fetch_html(url: str, country: str) -> str:
-    print(f"Fetching HTML for URL: {url}")
-    proxy = get_proxy_given_country(country)
-    try: 
-        browser, page = await get_browser_page(proxy)
-        print("New page created")
-        await page.goto(url, {"waitUntil": "networkidle2"})
-        print(f"Page loaded: {url}")
-        content = await page.content()
-        await browser.close()
-
-        print("Browser closed")
-        print("Returning content")
-        return content
-    except Exception as e:
-        print(e)
-        return ""
-
-
-import asyncio
 
 async def run_browser_tasks():
     task_browser = BrowserTask("in")

@@ -43,7 +43,7 @@ async def add_google_search_to_db(query, search, country, search_id):
             valid_results.append({
                 'title': title,
                 'link': link,
-                'image': result.get('flavicon', None),
+                'image': result.get('favicon', None),
                 'currency': currency,
                 'price': currency+str(price)
             })
@@ -51,7 +51,7 @@ async def add_google_search_to_db(query, search, country, search_id):
             valid_results.append({
                 'title': title,
                 'link': link,
-                'image': result.get('flavicon', None),
+                'image': result.get('favicon', None),
                 'price_from': currency+str(price_from),
                 'price_to': currency+str(price_to)
             })

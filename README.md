@@ -6,6 +6,16 @@
 
 ---
 
+## Important Note About AI Detection Features
+The screenshots in this README demonstrate AI-powered detection and highlighting of search bars and products (such as JioMart Search Bar Highlight and FlipKart Products Highlight).
+
+Please note: The implementation code for these AI detection features is located in:
+
+- Branch: `uday/discover-search-forms`
+- Directory: `./explore` folder
+
+Due to time constraints, this experimental code was not merged into the main branch or integrated into the `./bx-task-be` folder before submission.
+
 ## Highlighting of search bar when we find it in page
 
 Below are some example images showing the search bar highlighting feature:
